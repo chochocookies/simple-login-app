@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/screens/forgot_password.dart';
 import 'package:myapp/screens/home_screen.dart';
 
 import 'screens/login_screen.dart';
@@ -27,6 +28,9 @@ class Routes {
 
       case AppRoutes.register:
         return getRoute(widget: const RegisterPage());
+
+      case AppRoutes.forgotPassword:
+        return getRoute(widget: const ForgotPasswordScreen());
 
       case AppRoutes.homepage:
         // Periksa apakah UID dikirim sebagai argumen

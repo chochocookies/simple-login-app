@@ -160,6 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                     controller: nameController,
                   ),
+                  const SizedBox(height: 10), // Tambahkan spasi
                   AppTextFormField(
                     labelText: AppStrings.email,
                     controller: emailController,
@@ -174,6 +175,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               : AppStrings.invalidEmailAddress;
                     },
                   ),
+                  const SizedBox(height: 10), // Tambahkan spasi
                   DropdownButtonFormField<String>(
                     value: 'user', // Default role
                     items: [
@@ -188,6 +190,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       border: OutlineInputBorder(),
                     ),
                   ),
+                  const SizedBox(height: 10), // Tambahkan spasi
                   ValueListenableBuilder<bool>(
                     valueListenable: passwordNotifier,
                     builder: (_, passwordObscure, __) {
@@ -218,6 +221,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       );
                     },
                   ),
+                  const SizedBox(height: 10), // Tambahkan spasi
                   ValueListenableBuilder(
                     valueListenable: confirmPasswordNotifier,
                     builder: (_, confirmPasswordObscure, __) {
@@ -251,6 +255,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       );
                     },
                   ),
+                  const SizedBox(height: 20), // Spasi sebelum tombol
                   ValueListenableBuilder(
                     valueListenable: fieldValidNotifier,
                     builder: (_, isValid, __) {

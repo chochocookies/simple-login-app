@@ -14,6 +14,16 @@ class AppStrings {
   static const String signInToYourAccount = 'Sign in to your Account';
   static const String iHaveAnAccount = 'I have an account?';
   static const String forgotPassword = 'Forgot Password?';
+  static const String resetPassword = 'Reset Password?';
+  static const String sendResetLink =
+      'Input your email and we will send you a link to reset your password';
+  static const String sendResetLinkButton = 'Send email';
+  static const String updatePassword = 'Update Password?';
+  static const String enterNewPassword = 'Please Enter New Password?';
+  static const String newPassword = 'Confirm Your Password?';
+  static const String updatePasswordButton = 'Update Password';
+  static const String confirmPasswordButton = 'Confirm Your Password?';
+  static const String rememberMe = 'Remember Me';
   static const String orLoginWith = 'or Login with';
 
   static const String loggedIn = 'Logged In!';
@@ -36,4 +46,6 @@ class AppStrings {
   static const String passwordNotMatched = 'Password not matched!';
 
   static var errorOccurred;
+
+  static String? passwordResetEmailSent;
 }

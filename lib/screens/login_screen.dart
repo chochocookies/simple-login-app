@@ -5,7 +5,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '/utils/helpers/snackbar_helper.dart';
 import '/values/app_regex.dart';
-
 import '../components/app_text_form_field.dart';
 import '../resources/resources.dart';
 import '../utils/common_widgets/gradient_background.dart';
@@ -14,8 +13,6 @@ import '../values/app_constants.dart';
 import '../values/app_routes.dart';
 import '../values/app_strings.dart';
 import '../values/app_theme.dart';
-
-import 'home_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -30,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final ValueNotifier<bool> passwordNotifier = ValueNotifier(true);
   final ValueNotifier<bool> fieldValidNotifier = ValueNotifier(false);
+  final ValueNotifier<bool> rememberMeNotifier = ValueNotifier(false);
 
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
@@ -74,17 +72,16 @@ class _LoginPageState extends State<LoginPage> {
             code: 'UID_NOT_FOUND', message: 'UID tidak ditemukan.');
       }
 
-      // Tambahkan data pengguna ke Firestore jika belum ada
       await FirebaseFirestore.instance.collection('users').doc(uid).set({
-        'name': 'User Default', // Ganti dengan data yang sesuai
+        'name': 'User Default',
         'email': emailController.text.trim(),
         'role': 'user',
-      }, SetOptions(merge: true)); // Tidak menimpa data jika sudah ada
+      }, SetOptions(merge: true));
 
       SnackbarHelper.showSnackBar(AppStrings.loggedIn);
 
       NavigationHelper.pushReplacementNamed(
-        AppRoutes.homepage, // Gunakan nama rute yang benar
+        AppRoutes.homepage,
         arguments: uid,
       );
     } on FirebaseAuthException catch (e) {
@@ -113,7 +110,6 @@ class _LoginPageState extends State<LoginPage> {
       final User? user = userCredential.user;
 
       if (user != null) {
-        // Tambahkan data pengguna ke Firestore jika belum ada
         await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
           'name': user.displayName ?? 'User Default',
           'email': user.email,
@@ -131,7 +127,6 @@ class _LoginPageState extends State<LoginPage> {
   void _handleGoogleSignIn() async {
     final user = await signInWithGoogle();
     if (user != null) {
-      // Setelah berhasil login, arahkan ke halaman home
       NavigationHelper.pushReplacementNamed(
         AppRoutes.homepage,
         arguments: user.uid,
@@ -140,6 +135,20 @@ class _LoginPageState extends State<LoginPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Google Sign-In failed.')),
       );
+    }
+  }
+
+  Future<void> _resetPassword() async {
+    if (emailController.text.isEmpty) {
+      SnackbarHelper.showSnackBar(AppStrings.pleaseEnterEmailAddress);
+      return;
+    }
+
+    try {
+      await _auth.sendPasswordResetEmail(email: emailController.text.trim());
+      SnackbarHelper.showSnackBar(AppStrings.passwordResetEmailSent);
+    } catch (e) {
+      SnackbarHelper.showSnackBar(AppStrings.errorOccurred);
     }
   }
 
@@ -227,9 +236,32 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     },
                   ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(AppStrings.forgotPassword),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          ValueListenableBuilder(
+                            valueListenable: rememberMeNotifier,
+                            builder: (_, rememberMe, __) {
+                              return Checkbox(
+                                value: rememberMe,
+                                onChanged: (value) {
+                                  rememberMeNotifier.value = value ?? false;
+                                },
+                              );
+                            },
+                          ),
+                          const Text(AppStrings.rememberMe),
+                        ],
+                      ),
+                      TextButton(
+                        onPressed: () => NavigationHelper.pushReplacementNamed(
+                          AppRoutes.forgotPassword,
+                        ),
+                        child: const Text(AppStrings.forgotPassword),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 20),
                   ValueListenableBuilder(
@@ -262,7 +294,8 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Expanded(
                         child: OutlinedButton.icon(
-                          onPressed: _handleGoogleSignIn,
+                          onPressed:
+                              _handleGoogleSignIn, // Memanggil fungsi sign-in Google
                           icon: SvgPicture.asset('assets/vectors/google.svg',
                               width: 14),
                           label: const Text(
