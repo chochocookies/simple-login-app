@@ -16,11 +16,15 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController emailController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  String notificationMessage = ""; // Untuk menyimpan pesan notifikasi
 
   Future<void> _sendPasswordResetEmail() async {
     try {
       if (emailController.text.isEmpty) {
-        SnackbarHelper.showSnackBar("Masukkan email Anda.");
+        setState(() {
+          notificationMessage =
+              "Masukkan email Anda."; // Update pesan notifikasi
+        });
         return;
       }
 
@@ -61,14 +65,21 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.done,
             ),
+            const SizedBox(height: 10),
+            // Menampilkan pesan notifikasi
+            Text(
+              notificationMessage,
+              style: const TextStyle(
+                color: Colors.red, // Warna teks untuk peringatan
+                fontSize: 14, // Ukuran font
+              ),
+            ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _sendPasswordResetEmail,
               child: const Text(AppStrings.sendResetLinkButton),
             ),
-            const SizedBox(
-              height: 20,
-            )
+            const SizedBox(height: 20),
           ],
         ),
       ),

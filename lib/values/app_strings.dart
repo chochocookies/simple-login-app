@@ -13,6 +13,7 @@ class AppStrings {
   static const String signInToYourNAccount = 'Sign in to your\nAccount';
   static const String signInToYourAccount = 'Sign in to your Account';
   static const String iHaveAnAccount = 'I have an account?';
+
   static const String forgotPassword = 'Forgot Password?';
   static const String resetPassword = 'Reset Password?';
   static const String sendResetLink =
@@ -23,6 +24,22 @@ class AppStrings {
   static const String newPassword = 'Confirm Your Password?';
   static const String updatePasswordButton = 'Update Password';
   static const String confirmPasswordButton = 'Confirm Your Password?';
+
+  static const String passwordLengthCriteria =
+      'Password must be at least 8 characters long.';
+  static const String passwordLengthCriteriaSuccess =
+      'Password length is sufficient.';
+
+  static const String passwordUppercaseCriteria =
+      'Password must contain at least one uppercase letter.';
+  static const String passwordUppercaseCriteriaSuccess =
+      'Password contains an uppercase letter.';
+
+  static const String passwordSpecialCharCriteria =
+      'Password must include at least one special character (@, #, -, etc.).';
+  static const String passwordSpecialCharCriteriaSuccess =
+      'Password contains a special character.';
+
   static const String rememberMe = 'Remember Me';
   static const String orLoginWith = 'or Login with';
 

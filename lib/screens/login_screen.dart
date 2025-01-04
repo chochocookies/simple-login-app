@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '/utils/helpers/snackbar_helper.dart';
 import '/values/app_regex.dart';
 import '../components/app_text_form_field.dart';
-import '../resources/resources.dart';
+// import '../resources/resources.dart';
 import '../utils/common_widgets/gradient_background.dart';
 import '../utils/helpers/navigation_helper.dart';
 import '../values/app_constants.dart';
@@ -136,6 +136,48 @@ class _LoginPageState extends State<LoginPage> {
         const SnackBar(content: Text('Google Sign-In failed.')),
       );
     }
+  }
+
+  Widget _buildPasswordCriteria() {
+    final password = passwordController.text;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          password.isNotEmpty && AppRegex.passwordLengthRegex.hasMatch(password)
+              ? AppStrings.passwordLengthCriteriaSuccess
+              : AppStrings.passwordLengthCriteria,
+          style: TextStyle(
+            color: AppRegex.passwordLengthRegex.hasMatch(password)
+                ? Colors.green
+                : Colors.red,
+          ),
+        ),
+        Text(
+          password.isNotEmpty &&
+                  AppRegex.passwordUppercaseRegex.hasMatch(password)
+              ? AppStrings.passwordUppercaseCriteriaSuccess
+              : AppStrings.passwordUppercaseCriteria,
+          style: TextStyle(
+            color: AppRegex.passwordUppercaseRegex.hasMatch(password)
+                ? Colors.green
+                : Colors.red,
+          ),
+        ),
+        Text(
+          password.isNotEmpty &&
+                  AppRegex.passwordSpecialCharRegex.hasMatch(password)
+              ? AppStrings.passwordSpecialCharCriteriaSuccess
+              : AppStrings.passwordSpecialCharCriteria,
+          style: TextStyle(
+            color: AppRegex.passwordSpecialCharRegex.hasMatch(password)
+                ? Colors.green
+                : Colors.red,
+          ),
+        ),
+      ],
+    );
   }
 
   Future<void> _resetPassword() async {

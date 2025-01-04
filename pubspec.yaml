@@ -1,5 +1,5 @@
 name: myapp
-description: "A new Flutter project."
+description: "A simple Flutter application with Firebase integration for authentication features."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -43,6 +43,7 @@ dependencies:
   flutter_svg: ^2.0.16
   spider: ^4.2.2
   shared_preferences: ^2.3.4
+  flutter_launcher_icons: ^0.14.2
 
 dev_dependencies:
   flutter_test:
@@ -65,3 +66,4 @@ flutter:
 
   assets:
     - assets/vectors/
+    - assets/vectors/1024.png
